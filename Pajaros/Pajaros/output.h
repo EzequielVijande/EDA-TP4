@@ -6,13 +6,17 @@
 #include <allegro5\allegro_ttf.h>
 #include <allegro5\allegro_color.h>
 #include <allegro5\allegro_primitives.h>
+#include "bird.h"
 
+
+#define BIRD_SIZE 10
+#define BIRD_COLOR "black"
 class viewer //Se ocupa de todo lo relacionado con el output de la simulacion
 {
 public:
 	viewer(unsigned int height_, unsigned int width_, unsigned int font_size, char* img_path, char* font_path);
 	~viewer();
-	void UpdateDisplay(void);
+	void UpdateDisplay(bird* birds, unsigned int bird_count);
 	bool IsInitOK(void);
 
 

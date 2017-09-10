@@ -128,10 +128,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bird.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="output.cpp" />
+    <ClCompile Include="possition.cpp" />
+    <ClCompile Include="simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bird.h" />
     <ClInclude Include="output.h" />
+    <ClInclude Include="possition.h" />
+    <ClInclude Include="simulation.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

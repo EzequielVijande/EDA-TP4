@@ -42,6 +42,20 @@ bool viewer::IsInitOK(void)
 	return init;
 }
 
+void viewer::UpdateDisplay(bird* birds, unsigned int bird_count)
+{
+	ALLEGRO_BITMAP* current_target = al_get_target_bitmap(); //guarda el target actual para no perderlo.
+
+	al_set_target_backbuffer(display);
+	al_draw_bitmap(background, 0.0, 0.0, 0);
+	possition current_bird();
+	for (unsigned int i = 0; i < bird_count; i++)
+	{
+		al_draw_filled_circle(((birds+i)->getPos()).getX(), ((birds + i)->getPos()).getY(), BIRD_SIZE, al_color_name(BIRD_COLOR));
+	}
+
+	al_set_target_bitmap(current_target);
+}
 bool InitializeAllegroOutput(void)
 {
 	if (!al_init_image_addon())
@@ -89,7 +103,7 @@ bool viewer:: InitializeResources(char* path, char* font_path, unsigned int font
 
 void destroy_images(ALLEGRO_BITMAP  **imagen, unsigned int num_imagenes)
 {
-	int i;
+	unsigned int i;
 	for (i = 0; i<num_imagenes; i++)
 	{
 		al_destroy_bitmap(imagen[i]);
