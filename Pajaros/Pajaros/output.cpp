@@ -48,7 +48,6 @@ void viewer::UpdateDisplay(bird* birds, unsigned int bird_count)
 
 	al_set_target_backbuffer(display);
 	al_draw_bitmap(background, 0.0, 0.0, 0);
-	possition current_bird();
 	for (unsigned int i = 0; i < bird_count; i++)
 	{
 		al_draw_filled_circle(((birds+i)->getPos()).getX(), ((birds + i)->getPos()).getY(), BIRD_SIZE, al_color_name(BIRD_COLOR));
@@ -76,19 +75,20 @@ bool InitializeAllegroOutput(void)
 
 bool viewer:: InitializeResources(char* path, char* font_path, unsigned int font_size)
 {
-	display = al_create_display(width, height);
+	display = al_create_display(width*(UNIT), height*(UNIT));
 	if (display == NULL)
 	{
 		return false;
 	}
 	
-	background= load_image_at_size(path, width, height);
+
+	background= load_image_at_size(path, width*(UNIT), height*(UNIT));
 	if (background == nullptr)
 	{
 		al_destroy_display(display);
 		return false;
 	}
-
+	
 	font = al_load_ttf_font(font_path, font_size, 0);
 	if (font == NULL)
 	{
@@ -96,7 +96,6 @@ bool viewer:: InitializeResources(char* path, char* font_path, unsigned int font
 		al_destroy_bitmap(background);
 		return false;
 	}
-
 	return true;
 	
 }

@@ -11,6 +11,7 @@
 
 #define BIRD_SIZE 10
 #define BIRD_COLOR "black"
+#define UNIT 12
 class viewer //Se ocupa de todo lo relacionado con el output de la simulacion
 {
 public:

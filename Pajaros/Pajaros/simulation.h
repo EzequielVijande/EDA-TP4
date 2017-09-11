@@ -33,6 +33,7 @@ public:
 	bool isBirdAdded(void);
 	bool isBirdDeleted(void);
 	unsigned int getBirdCount(void);
+	bird* GetBirdHeap(void);
 	~simulation();
 private:
 	

@@ -205,6 +205,11 @@ unsigned int simulation::getBirdCount(void)
 	return birdCount;
 }
 
+bird* simulation::GetBirdHeap(void)
+{
+	return birds;
+}
+
 void simulation::addBird(bool)
 {
 	birdAdded = true;
