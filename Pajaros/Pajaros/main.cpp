@@ -3,6 +3,7 @@
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_primitives.h>
 #include <iostream>
+#include <stdlib.h>
 
 #define BACKGROUND_IMAGE "../Imagenes/sky.png"
 #define FONT "../Fonts/Starjedi.ttf"
@@ -26,6 +27,7 @@ int main(void)
 		return -1;
 	}
 
+	srand(time(NULL));
 	//parsecmdline
 	//
 	simulation sim1(20); //creo simulación con 20 pajaros (enrealidad debo pasarle parametros que ha de procesar el parsecmdline mas arriba...)
@@ -40,10 +42,13 @@ int main(void)
 	//while(control.isnotexit())
 	//{
 	//control.update();
-	sim1.update();
-	view.UpdateDisplay(sim1.GetBirdHeap(), sim1.getBirdCount());
-	al_flip_display();
-	al_rest(5.0);
+	for (unsigned int i = 0; i < 800; i++)
+	{
+		sim1.update();
+		view.UpdateDisplay(sim1.GetBirdHeap(), sim1.getBirdCount());
+		al_rest(0.02);
+		al_flip_display();
+	}
 	//}
 	return 0;
 }

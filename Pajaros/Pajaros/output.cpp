@@ -50,7 +50,7 @@ void viewer::UpdateDisplay(bird* birds, unsigned int bird_count)
 	al_draw_bitmap(background, 0.0, 0.0, 0);
 	for (unsigned int i = 0; i < bird_count; i++)
 	{
-		al_draw_filled_circle(((birds+i)->getPos()).getX(), ((birds + i)->getPos()).getY(), BIRD_SIZE, al_color_name(BIRD_COLOR));
+		al_draw_filled_circle((((birds+i)->getPos()).getX())*(UNIT), (((birds + i)->getPos()).getY())*(UNIT), BIRD_SIZE, al_color_name(BIRD_COLOR));
 	}
 
 	al_set_target_bitmap(current_target);

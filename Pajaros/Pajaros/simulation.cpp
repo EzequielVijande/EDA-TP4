@@ -32,9 +32,9 @@ simulation :: simulation(unsigned int birdCount_)
 		for (unsigned int i = 0; i < birdCount; i++)
 		{
 			birds[i].setDir(rand() % 360);  //seteo todos los pajaros con una direccion random entre 0 y 360 (grados)
-			birds[i].setMaxRandomJiggle(8); //seteo para todos un meneo maximo de 8 (grados)
-			birds[i].setEyeSight(40);  //seteo alcance
-			birds[i].setSpeed(5);
+			birds[i].setMaxRandomJiggle(3); //seteo para todos un meneo maximo de 8 (grados)
+			birds[i].setEyeSight(4);  //seteo alcance
+			birds[i].setSpeed(20);
 			birds[i].setXmax(100);
 			birds[i].setYmax(70);
 		}

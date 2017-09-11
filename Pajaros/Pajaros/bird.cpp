@@ -5,7 +5,7 @@
 #define MODULO(a) ( a >= 0? a : (a * (-1)) )
 #define DIST(p1, p2) (sqrt(pow((p1.getX() - p2.getX()), 2) + pow(p1.getY() - p2.getY(), 2))) 
 #define PI	3.14159265359
-#define DEG2RAD(ang_deg) ( (((ang_deg) * PI) / 180) )
+#define DEG2RAD(ang_deg) ( (((ang_deg) * PI) / 180.0) )
 
 using namespace std;
 
@@ -17,17 +17,18 @@ bird :: bird(unsigned int eyeSight_, unsigned int maxRandomJiggle_, unsigned int
 	newDirection = newDir_;
 	xMax = xMax_;
 	yMax = yMax_;
+	p.setX(rand()%xMax_);
+	p.setY(rand()%yMax_);
+	currentDirection = rand() % 360;
 }
 
 void bird :: calculateNewDir(bird * birds, unsigned int birdCount)
 {
 	int seen_birds = 0;
-	double dir_suma = 0;
-	double dir_prom = 0;
+	double dir_suma = 0.0;
+	double dir_prom = 0.0;
 
-	dir_suma = 0;
-	dir_prom = 0;
-	seen_birds = 0;
+	
 	for (unsigned int j = 0; j < birdCount; j++) //observo los demas pájaros
 	{
 		if (DIST(birds[j].p, p) <= eyeSight) //observo en el radio eyeSight (también el pajaro se observa asi mismo)
@@ -45,22 +46,22 @@ void bird :: move(void)
 {
 	currentDirection = newDirection;
 	p.setX(p.getX() + cos(DEG2RAD(currentDirection)));
-	p.setY(p.getY() + sin(DEG2RAD(currentDirection)));
+	p.setY(p.getY() - sin(DEG2RAD(currentDirection)));
 	if (p.getX() > xMax)
 	{
-		p.setX(0);
+		p.setX((p.getX())- xMax);
 	}
-	else if (p.getX() < 0)     //mundo toroidal
+	else if ((p.getX()) < 0)     //mundo toroidal
 	{
-		p.setX(xMax);
+		p.setX(xMax+(p.getX()));
 	}
 	if (p.getY() > yMax)
 	{
-		p.setY(0);
+		p.setY((p.getY())- yMax);
 	}
 	else if (p.getY() < 0)
 	{
-		p.setY(yMax);
+		p.setY(yMax+(p.getY()));
 	}
 
 	secuence++;
