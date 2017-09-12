@@ -11,6 +11,7 @@ using namespace std;
 
 bird :: bird(unsigned int eyeSight_, unsigned int maxRandomJiggle_, unsigned int speed_, double newDir_, unsigned int xMax_, unsigned int yMax_)
 {
+	secuenceMax = 16;
 	eyeSight = eyeSight_;
 	maxRandomJiggle = maxRandomJiggle_;
 	speed = speed_;
@@ -20,6 +21,7 @@ bird :: bird(unsigned int eyeSight_, unsigned int maxRandomJiggle_, unsigned int
 	p.setX(rand()%xMax_);
 	p.setY(rand()%yMax_);
 	currentDirection = rand() % 360;
+	secuence = rand()% secuenceMax;
 }
 
 void bird :: calculateNewDir(bird * birds, unsigned int birdCount)
@@ -113,6 +115,10 @@ possition bird::getPos(void)
 double bird :: getDir(void)
 {
 	return currentDirection;
+}
+unsigned int bird::getSecuence(void)
+{
+	return secuence;
 }
 void bird::setDir(double newDir_)
 {

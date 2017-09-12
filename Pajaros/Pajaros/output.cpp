@@ -14,7 +14,7 @@ void destroy_images(ALLEGRO_BITMAP  **imagen, unsigned int num_imagenes);
 //Libera toda la memoria utilizada por las imagenes creadas.
 
 
-viewer::viewer(unsigned int height_, unsigned int width_, char* img_path, char* font_path)
+viewer::viewer(unsigned int height_, unsigned int width_, char* img_path, char* font_path, char** seagulls, unsigned int n_seagulls)
 {
 	height = height_;
 	width = width_;
@@ -24,7 +24,7 @@ viewer::viewer(unsigned int height_, unsigned int width_, char* img_path, char* 
 	init = InitializeAllegroOutput();
 	if (init)
 	{
-		init = InitializeResources(img_path, font_path, font_size);
+		init = InitializeResources(img_path, font_path, font_size, seagulls, n_seagulls);
 	}
 	
 }
@@ -36,6 +36,7 @@ viewer:: ~viewer()
 		al_destroy_bitmap(background);
 		al_destroy_font(font);
 		al_destroy_display(display);
+		destroy_images(seagull, FRAMES);
 	}
 }
 
@@ -50,9 +51,16 @@ void viewer::UpdateDisplay(bird* birds, unsigned int bird_count)
 
 	al_set_target_backbuffer(display);
 	al_draw_bitmap(background, 0.0, 0.0, 0);
+	unsigned int offset = 0;
 	for (unsigned int i = 0; i < bird_count; i++)
 	{
-		al_draw_filled_circle((((birds+i)->getPos()).getX())*(UNIT), (((birds + i)->getPos()).getY())*(UNIT), BIRD_SIZE, al_color_name(BIRD_COLOR));
+		offset = ((birds + i)->getSecuence());
+		if (offset > 15)
+		{
+			offset = 0;
+		}
+		al_draw_bitmap(seagull[offset], (((birds + i)->getPos()).getX())*(UNIT), (((birds + i)->getPos()).getY())*(UNIT), 0);
+		//al_draw_filled_circle((((birds+i)->getPos()).getX())*(UNIT), (((birds + i)->getPos()).getY())*(UNIT), BIRD_SIZE, al_color_name(BIRD_COLOR));
 	}
 	PrintText(birds);
 	
@@ -94,7 +102,7 @@ bool InitializeAllegroOutput(void)
 	return true;
 }
 
-bool viewer:: InitializeResources(char* path, char* font_path, unsigned int font_size)
+bool viewer:: InitializeResources(char* path, char* font_path, unsigned int font_size, char** seagulls, unsigned int n_seagulls)
 {
 	display = al_create_display(width*(UNIT), height*(UNIT));
 	if (display == NULL)
@@ -109,12 +117,23 @@ bool viewer:: InitializeResources(char* path, char* font_path, unsigned int font
 		al_destroy_display(display);
 		return false;
 	}
-	
+	for (unsigned int i= 0; i < n_seagulls; i++)
+	{
+		seagull[i]=load_image_at_size(seagulls[i], BIRD_SIZE, BIRD_SIZE);
+		if ((seagull[i]) == nullptr)
+		{
+			al_destroy_display(display);
+			al_destroy_bitmap(background);
+			destroy_images(seagull, i);
+			return false;
+		}
+	}
 	font = al_load_ttf_font(font_path, font_size, 0);
 	if (font == NULL)
 	{
 		al_destroy_display(display);
 		al_destroy_bitmap(background);
+		destroy_images(seagull, n_seagulls);
 		return false;
 	}
 	return true;

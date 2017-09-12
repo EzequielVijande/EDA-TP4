@@ -19,6 +19,7 @@ public:
 	void decrementDir(void);
 	possition getPos(void);
 	double getDir(void);
+	unsigned int getSecuence(void);
 	void setDir(double);
 	unsigned int getSpeed(void);
 	void setSpeed(unsigned int);
