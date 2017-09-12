@@ -11,11 +11,11 @@
 
 #define BIRD_SIZE 4
 #define BIRD_COLOR "black"
-#define UNIT 12
+#define UNIT 10
 class viewer //Se ocupa de todo lo relacionado con el output de la simulacion
 {
 public:
-	viewer(unsigned int height_, unsigned int width_, unsigned int font_size, char* img_path, char* font_path);
+	viewer(unsigned int height_, unsigned int width_, char* img_path, char* font_path);
 	~viewer();
 	void UpdateDisplay(bird* birds, unsigned int bird_count);
 	bool IsInitOK(void);
@@ -28,8 +28,10 @@ private:
 	ALLEGRO_DISPLAY * display;
 	ALLEGRO_BITMAP* background;
 	ALLEGRO_FONT* font;
+	double font_size;
 	bool init;
 	bool InitializeResources(char* image, char* font_path, unsigned int font_size);
+	void PrintText(bird* birds);
 
 };
 

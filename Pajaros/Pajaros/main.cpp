@@ -6,8 +6,8 @@
 #include <stdlib.h>
 
 #define BACKGROUND_IMAGE "../Imagenes/sky.png"
-#define FONT "../Fonts/Starjedi.ttf"
-#define FONT_SIZE 10
+#define FONT "../Fonts/Font.ttf"
+
 #define HEIGHT 70
 #define WIDTH 100
 
@@ -32,7 +32,7 @@ int main(void)
 	//
 	simulation sim1(20); //creo simulación con 20 pajaros (enrealidad debo pasarle parametros que ha de procesar el parsecmdline mas arriba...)
 
-	viewer view(HEIGHT, WIDTH, FONT_SIZE, BACKGROUND_IMAGE, FONT);
+	viewer view(HEIGHT, WIDTH, BACKGROUND_IMAGE, FONT);
 	if (!(view.IsInitOK()))
 	{
 		cout << "Failed to initialize viewer." << endl;

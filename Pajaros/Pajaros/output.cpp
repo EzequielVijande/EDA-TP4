@@ -1,5 +1,6 @@
 #include "output.h"
-
+#define FONT_COLOR "red"
+#define FONT_SIZE 30
 bool InitializeAllegroOutput(void);
 //Inicializa los  addons necesarios de allegro para
 //utilizar el modulo de output.
@@ -13,10 +14,11 @@ void destroy_images(ALLEGRO_BITMAP  **imagen, unsigned int num_imagenes);
 //Libera toda la memoria utilizada por las imagenes creadas.
 
 
-viewer::viewer(unsigned int height_, unsigned int width_,unsigned int font_size, char* img_path, char* font_path)
+viewer::viewer(unsigned int height_, unsigned int width_, char* img_path, char* font_path)
 {
 	height = height_;
 	width = width_;
+	font_size =FONT_SIZE;
 
 	
 	init = InitializeAllegroOutput();
@@ -52,8 +54,27 @@ void viewer::UpdateDisplay(bird* birds, unsigned int bird_count)
 	{
 		al_draw_filled_circle((((birds+i)->getPos()).getX())*(UNIT), (((birds + i)->getPos()).getY())*(UNIT), BIRD_SIZE, al_color_name(BIRD_COLOR));
 	}
-
+	PrintText(birds);
+	
 	al_set_target_bitmap(current_target);
+}
+
+void viewer:: PrintText(bird* birds)
+{
+	al_draw_textf(font, al_color_name(FONT_COLOR), 0, (height - (UNIT - 2))*(UNIT), ALLEGRO_ALIGN_LEFT, "Speed: %d", (birds->getSpeed())); //imprime la velocidad
+	al_draw_text(font, al_color_name(FONT_COLOR), 0, (height - (UNIT - 2) / 1.5)*(UNIT), ALLEGRO_ALIGN_LEFT, "++: 's'"); //imprime como incrementar
+	al_draw_text(font, al_color_name(FONT_COLOR), 0, (height - (UNIT - 2) / 2.5)*(UNIT), ALLEGRO_ALIGN_LEFT, "--: 'c'"); //imprime como decrementar
+
+	al_draw_textf(font, al_color_name(FONT_COLOR), ((width / 2.0))*(UNIT), (height - (UNIT - 2))*(UNIT), ALLEGRO_ALIGN_CENTER, "Max Jiggle: %d", (birds->getMaxRandomJiggle())); //imprime el randomJiggle maximo
+	al_draw_text(font, al_color_name(FONT_COLOR), ((width / 2.0))*(UNIT), (height - (UNIT - 2) / 1.5)*(UNIT), ALLEGRO_ALIGN_CENTER, "++: 'j'"); //imprime como incrementar
+	al_draw_text(font, al_color_name(FONT_COLOR), ((width / 2.0))*(UNIT), (height - (UNIT - 2) / 2.5)*(UNIT), ALLEGRO_ALIGN_CENTER, "--: 'g'"); //imprime como decrementar
+
+
+	al_draw_textf(font, al_color_name(FONT_COLOR), (width)*(UNIT), (height - (UNIT - 2))*(UNIT), ALLEGRO_ALIGN_RIGHT, "Eye Sight: %d", (birds->getEyeSight())); //imprime el eyesight
+	al_draw_text(font, al_color_name(FONT_COLOR), (width)*(UNIT), (height - (UNIT - 2) / 1.5)*(UNIT), ALLEGRO_ALIGN_RIGHT, "++: 'e'"); //imprime como incrementar
+	al_draw_text(font, al_color_name(FONT_COLOR), (width)*(UNIT), (height - (UNIT - 2) / 2.5)*(UNIT), ALLEGRO_ALIGN_RIGHT, "--: 'b'"); //imprime como decrementar
+
+
 }
 bool InitializeAllegroOutput(void)
 {
