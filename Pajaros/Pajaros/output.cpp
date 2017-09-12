@@ -52,6 +52,7 @@ void viewer::UpdateDisplay(bird* birds, unsigned int bird_count)
 	al_set_target_backbuffer(display);
 	al_draw_bitmap(background, 0.0, 0.0, 0);
 	unsigned int offset = 0;
+	double direction = 0.0;
 	for (unsigned int i = 0; i < bird_count; i++)
 	{
 		offset = ((birds + i)->getSecuence());
@@ -59,8 +60,16 @@ void viewer::UpdateDisplay(bird* birds, unsigned int bird_count)
 		{
 			offset = 0;
 		}
-		al_draw_bitmap(seagull[offset], (((birds + i)->getPos()).getX())*(UNIT), (((birds + i)->getPos()).getY())*(UNIT), 0);
-		//al_draw_filled_circle((((birds+i)->getPos()).getX())*(UNIT), (((birds + i)->getPos()).getY())*(UNIT), BIRD_SIZE, al_color_name(BIRD_COLOR));
+		direction = ((birds + i)->getDir());
+		if((direction>90)&&(direction<270))
+		{
+			al_draw_bitmap(seagull[offset], (((birds + i)->getPos()).getX())*(UNIT), (((birds + i)->getPos()).getY())*(UNIT), ALLEGRO_FLIP_HORIZONTAL);
+			
+		}
+		else
+		{
+			al_draw_bitmap(seagull[offset], (((birds + i)->getPos()).getX())*(UNIT), (((birds + i)->getPos()).getY())*(UNIT), 0);
+		}
 	}
 	PrintText(birds);
 	

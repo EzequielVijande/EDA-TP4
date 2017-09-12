@@ -29,19 +29,31 @@ void bird :: calculateNewDir(bird * birds, unsigned int birdCount)
 	int seen_birds = 0;
 	double dir_suma = 0.0;
 	double dir_prom = 0.0;
-
+	double dir_new = 0.0;
+	double direction_aux = 0.0; //le resta una vuelta a las direcciones que se exceden de 360
 	
 	for (unsigned int j = 0; j < birdCount; j++) //observo los demas pájaros
 	{
 		if (DIST(birds[j].p, p) <= eyeSight) //observo en el radio eyeSight (también el pajaro se observa asi mismo)
 		{
 			seen_birds++; //cuento cuantos pajaros estan en el radio (eyeSight)
-			dir_suma += birds[j].currentDirection;
+			direction_aux = (birds[j]).currentDirection;
+			if(direction_aux>360)
+			{
+				direction_aux = (int)direction_aux%360; //acomoda la direccion si esta supera los 360 grados
+			}
+			dir_suma += direction_aux;
 		}
 	}
 	
 	dir_prom = seen_birds != 0 ? (dir_suma / (double)seen_birds) : currentDirection; //solo si hubo pajaros en el radio, se cambia la direccion
-	setDir(dir_prom + (rand() % maxRandomJiggle));
+	
+	dir_new = (dir_prom)+(rand() % maxRandomJiggle);
+	if (dir_new > 360)
+	{
+		dir_new = (int)dir_new % 360; //acomoda la direccion si esta supera los 360 grados
+	}
+	setDir(dir_new);
 }
 
 void bird :: move(void)
@@ -120,6 +132,7 @@ unsigned int bird::getSecuence(void)
 {
 	return secuence;
 }
+
 void bird::setDir(double newDir_)
 {
 	newDirection = newDir_;

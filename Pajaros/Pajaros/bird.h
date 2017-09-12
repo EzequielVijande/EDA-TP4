@@ -20,6 +20,8 @@ public:
 	possition getPos(void);
 	double getDir(void);
 	unsigned int getSecuence(void);
+	bool getFlip(void);
+	void setFlip(bool);
 	void setDir(double);
 	unsigned int getSpeed(void);
 	void setSpeed(unsigned int);
