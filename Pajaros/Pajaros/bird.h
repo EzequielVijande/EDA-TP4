@@ -2,6 +2,7 @@
 
 #ifndef BIRD_H_
 #define BIRD_H_
+#define FRAMES 16
 
 #include "possition.h"
 class bird
@@ -20,8 +21,6 @@ public:
 	possition getPos(void);
 	double getDir(void);
 	unsigned int getSecuence(void);
-	bool getFlip(void);
-	void setFlip(bool);
 	void setDir(double);
 	unsigned int getSpeed(void);
 	void setSpeed(unsigned int);

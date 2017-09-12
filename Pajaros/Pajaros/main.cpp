@@ -63,11 +63,11 @@ int main(void)
 	//while(control.isnotexit())
 	//{
 	//control.update();
-	for (unsigned int i = 0; i < 800; i++)
+	for (unsigned int i = 0; i < 500; i++)
 	{
 		sim1.update();
 		view.UpdateDisplay(sim1.GetBirdHeap(), sim1.getBirdCount());
-		al_rest(0.03);
+		al_rest(0.05);
 		al_flip_display();
 	}
 	//}

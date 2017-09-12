@@ -11,7 +11,7 @@ using namespace std;
 
 bird :: bird(unsigned int eyeSight_, unsigned int maxRandomJiggle_, unsigned int speed_, double newDir_, unsigned int xMax_, unsigned int yMax_)
 {
-	secuenceMax = 16;
+	secuenceMax = FRAMES;
 	eyeSight = eyeSight_;
 	maxRandomJiggle = maxRandomJiggle_;
 	speed = speed_;
@@ -34,7 +34,7 @@ void bird :: calculateNewDir(bird * birds, unsigned int birdCount)
 	
 	for (unsigned int j = 0; j < birdCount; j++) //observo los demas pájaros
 	{
-		if (DIST(birds[j].p, p) <= eyeSight) //observo en el radio eyeSight (también el pajaro se observa asi mismo)
+		if (DIST(((birds[j]).p), p) <= eyeSight) //observo en el radio eyeSight (también el pajaro se observa asi mismo)
 		{
 			seen_birds++; //cuento cuantos pajaros estan en el radio (eyeSight)
 			direction_aux = (birds[j]).currentDirection;
