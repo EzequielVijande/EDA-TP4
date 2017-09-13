@@ -1,16 +1,11 @@
-#include "simulation.h"
-#include "output.h"
-#include <allegro5\allegro.h>
-#include <allegro5\allegro_primitives.h>
-#include <iostream>
-#include <stdlib.h>
+#include "main.h"
 
 #define BACKGROUND_IMAGE "../Imagenes/sky.png"
 #define FONT "../Fonts/Font.ttf"
 
-
 #define HEIGHT 70
 #define WIDTH 100
+#define MAX_BIRDS 100
 
 //Seagull Images
 #define S0 "../Imagenes/S0.PNG"
@@ -33,25 +28,28 @@
 using namespace std;
 
 
-int main(void)
-{
+int
+main(int argc, char**argv){
 	if (!al_init())
 	{
 		cout << "Failed to initialize Allegro" << endl;
-		return -1;
+		return ERR;
 	}
 	if (!al_init_primitives_addon())
 	{
 		cout << "Failed to initialize primitives addon" << endl;
-		return -1;
+		return ERR;
 	}
-	char* seagulls[FRAMES] = {S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15};
+	char* seagulls[FRAMES] = { S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15 };
 	//Inicializo arreglo con paths de gaviotas
-
+	userDataType uData = {0,0};
 	srand(time(NULL));
-	//parsecmdline
+	if (parsecmdline(argc, argv, &Callback, &uData)==-1) {
+		cout << "Parsing Error. Recall the program with appropiate argument values." << endl;
+		return ERR;
+	}
 	//
-	simulation sim1(20); //creo simulación con 20 pajaros (enrealidad debo pasarle parametros que ha de procesar el parsecmdline mas arriba...)
+	simulation sim1(uData.birdnumber); //creo simulación con cantidad de pajaros definida por usuario.
 
 	viewer view(HEIGHT, WIDTH, BACKGROUND_IMAGE, FONT, seagulls, FRAMES);
 	if (!(view.IsInitOK()))
@@ -72,4 +70,68 @@ int main(void)
 	}
 	//}
 	return 0;
+
+
 }
+
+int
+Callback(char *key, char *value, void *userData) {
+
+	int errfl = ON;										//Dado que no se aceptan más de una misma llamada a un parametro, se utiliza un flag 
+	userDataType *uData = (userDataType*)userData;		//para verificar que el parametro no fue llamado anteriormente.
+														//Se castea el puntero a void por portabilidad del Parser
+	if (key == NULL) {
+		if (!strcmp(value, "help")) {		//Se agrego un help para el uso del programa.
+			help();
+			return -1;
+		}
+		else if (isanumber(value)) {
+			if (uData->Flag->birdnumber == OFF) {
+				uData->birdnumber = atoi(value);
+				if (uData->birdnumber > MAX_BIRDS) {
+					errfl = OFF;
+				}
+				else {
+					cout << "Error: Parameter exceeds maximum bird amount. Value given:" << uData->birdnumber << endl;
+				}
+				uData->Flag->birdnumber = ON;
+			}
+		}else{
+			printf("Error: Program only accepts arguments help or an interger number.\n");
+			return ERR;
+		}
+	}else{
+		printf("Error: Program only accepts arguments. No valid -key values exist.");
+		return ERR;
+	}
+
+	if (errfl == ON) {
+		printf("Error: Invalid argument %s! Too many input arguments.\n", value);
+		return ERR;
+	}
+	return OFF;
+}
+
+bool isanumber(char* value) {		//No standard function to check if the value string was an interger unless using sscanf. We made our own. 
+	for (int i = 0; i<strlen(value); i++) {
+		if (isdigit(value[i])); else return false;
+	}
+	return true;
+}
+
+void
+help(void) {
+	//Created for easy use to new users.
+	printf("Welcome to our Bird Simulation!\n");
+	printf("This text was written to help new users with the parameters and limitations of the program.\n");
+	printf("\n Key Parameters:\n");
+	printf("\n This program does not accept key value type parameters, only arguments.\n");
+	printf("\nArgument Parameters:\n");
+	printf("If the argument is a number, it sets the number of birds for the simulation.\n");
+	printf("If the argument is 'help' it calls forth this message.");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+
+}
+
