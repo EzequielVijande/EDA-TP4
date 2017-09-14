@@ -5,6 +5,7 @@
 #include <allegro5\allegro.h>
 #include "ParserFunc.h"
 #include "possition.h"
+#include "userData.h"
 
 #define BACKGROUND_IMAGE "../Imagenes/sky.png"
 #define FONT "../Fonts/Font.ttf"
@@ -13,6 +14,8 @@
 #define WIDTH 100
 #define MAX_BIRDS 100
 #define ERR -1
+#define ON 1
+#define OFF 0
 
 //Seagull Images
 #define S0 "../Imagenes/S0.PNG"
@@ -32,7 +35,14 @@
 #define S14 "../Imagenes/S14.PNG"
 #define S15 "../Imagenes/S15.PNG"
 
-#define FPS 60 //velocidad del juego
+#define FPS 20 //velocidad del juego
+
+void help(void);
+
+bool isanumber(char* value);
+
+int Callback(char *key, char *value, void *userData);
+
 
 using namespace std;
 
@@ -55,12 +65,14 @@ main(int argc, char**argv){
 	//Inicializo arreglo con paths de gaviotas
 	userDataType uData = {0,0};
 	srand(time(NULL));
+	/*
 	if (parsecmdline(argc, argv, &Callback, &uData)==-1) {
 		cout << "Parsing Error. Recall the program with appropiate argument values." << endl;
 		return -1;
 	}
+	*/
 	//
-	simulation sim1(uData.birdnumber); //creo simulación con cantidad de pajaros definida por usuario.
+	simulation sim1(20); //creo simulación con cantidad de pajaros definida por usuario.
 
 	viewer view(HEIGHT, WIDTH, BACKGROUND_IMAGE, FONT, seagulls, FRAMES);
 	if (!(view.IsInitOK()))
@@ -74,9 +86,9 @@ main(int argc, char**argv){
 		return -1;
 	}
 
-	while(control.IsNotExit)
+	while(control.IsNotExit())
 	{
-		control.Update(&sim1);
+		control.Update(&sim1, &view);
 		sim1.update();
 		al_flip_display();
 	
@@ -86,8 +98,8 @@ main(int argc, char**argv){
 
 }
 
-int
-Callback(char *key, char *value, void *userData) {
+int Callback(char *key, char *value, void *userData) 
+{
 
 	int errfl = ON;										//Dado que no se aceptan más de una misma llamada a un parametro, se utiliza un flag 
 	userDataType *uData = (userDataType*)userData;		//para verificar que el parametro no fue llamado anteriormente.
@@ -98,9 +110,11 @@ Callback(char *key, char *value, void *userData) {
 			return -1;
 		}
 		else if (isanumber(value)) {
-			if (uData->Flag->birdnumber == OFF) {
+			if (uData->Flag->birdnumber == OFF) 
+			{
 				uData->birdnumber = atoi(value);
-				if (uData->birdnumber > MAX_BIRDS) {
+				if (uData->birdnumber > MAX_BIRDS) 
+				{
 					errfl = OFF;
 				}
 				else {
@@ -117,22 +131,29 @@ Callback(char *key, char *value, void *userData) {
 		return ERR;
 	}
 
-	if (errfl == ON) {
+	if (errfl == ON) 
+	{
 		printf("Error: Invalid argument %s! Too many input arguments.\n", value);
 		return ERR;
 	}
 	return OFF;
 }
 
-bool isanumber(char* value) {		//No standard function to check if the value string was an interger unless using sscanf. We made our own. 
-	for (int i = 0; i<strlen(value); i++) {
-		if (isdigit(value[i])); else return false;
+bool isanumber(char* value) 
+{		//No standard function to check if the value string was an interger unless using sscanf. We made our own. 
+	for (unsigned int i = 0; i<strlen(value); i++) 
+	{
+		if (isdigit(value[i]));
+		else
+		{
+			return false;
+		}
 	}
 	return true;
 }
 
-void
-help(void) {
+void help(void) 
+{
 	//Created for easy use to new users.
 	printf("Welcome to our Bird Simulation!\n");
 	printf("This text was written to help new users with the parameters and limitations of the program.\n");

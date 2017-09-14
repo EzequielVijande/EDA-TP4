@@ -12,7 +12,7 @@ public:
 	bool IsNotExit(void);
 	bool IsInitOK(void);
 	~controller();
-	void Update(simulation*);
+	void Update(simulation* sim, viewer* view);
 
 private:
 	bool exit;

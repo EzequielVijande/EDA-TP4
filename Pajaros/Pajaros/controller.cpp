@@ -58,6 +58,7 @@ controller:: ~controller()
 void	controller::Update(simulation* sim, viewer* view)
 {		
 	al_get_next_event(ev_line, &ev);
+	possition clicked;
 	switch (ev.type)
 	{
 	case  ALLEGRO_EVENT_KEY_DOWN:
@@ -97,7 +98,8 @@ void	controller::Update(simulation* sim, viewer* view)
 		exit = true;
 		break;
 	case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-		possition clicked(ev.mouse.x, ev.mouse.y);
+		clicked.setX(ev.mouse.x);
+		clicked.setY(ev.mouse.y);
 		sim->changeDir(clicked);
 		break;
 	case ALLEGRO_EVENT_TIMER:
@@ -107,6 +109,16 @@ void	controller::Update(simulation* sim, viewer* view)
 
 	}
 
+}
+
+bool controller::IsNotExit(void)
+{
+	return (!exit);
+}
+
+bool controller::IsInitOK(void)
+{
+	return init;
 }
 	
 
