@@ -5,7 +5,8 @@
 #define MODULO(a) ( a >= 0? a : (a * (-1)) )
 #define DIST(p1, p2) (sqrt(pow((p1.getX() - p2.getX()), 2) + pow(p1.getY() - p2.getY(), 2))) 
 #define PI	3.14159265359
-#define DEG2RAD(ang_deg) ( (((ang_deg) * PI) / 180.0) )
+#define DEG2RAD(ang_deg) ( (((ang_deg) * PI) / 180.0)) 
+#define SPEED_MAX 45
 
 using namespace std;
 
@@ -59,8 +60,8 @@ void bird :: calculateNewDir(bird * birds, unsigned int birdCount)
 void bird :: move(void)
 {
 	currentDirection = newDirection;
-	p.setX(p.getX() + cos(DEG2RAD(currentDirection)));
-	p.setY(p.getY() - sin(DEG2RAD(currentDirection)));
+	p.setX(p.getX() + (speed/50.0)*cos(DEG2RAD(currentDirection)));
+	p.setY(p.getY() - (speed / 50.0)*sin(DEG2RAD(currentDirection)));
 	if (p.getX() > xMax)
 	{
 		p.setX((p.getX())- xMax);
@@ -91,11 +92,17 @@ void bird ::incrementEyeSight(void)
 }
 void bird ::decrementEyeSight(void)
 {
-	eyeSight--;
+	if (eyeSight > 1)
+	{
+		eyeSight--;
+	}
 }
 void bird ::incrementSpeed(void)
 {
-	speed++;
+	if (speed < SPEED_MAX)
+	{
+		speed++;
+	}
 }
 void bird ::decrementSpeed(void)
 {

@@ -6,8 +6,9 @@
 #define JIGGLE_INC ALLEGRO_KEY_J
 #define JIGGLE_DEC ALLEGRO_KEY_G
 
+#define FPS (60.0) //velocidad del juego
 
-controller:: controller(ALLEGRO_DISPLAY* display, unsigned int speed)
+controller:: controller(ALLEGRO_DISPLAY* display)
 {
 	exit = false;
 	init = true;
@@ -22,7 +23,7 @@ controller:: controller(ALLEGRO_DISPLAY* display, unsigned int speed)
 	{
 
 
-		timer = al_create_timer(1.0 / (double)speed);
+		timer = al_create_timer(1.0 / FPS);
 		if (timer == NULL)
 		{
 			init = false;
@@ -59,6 +60,7 @@ void	controller::Update(simulation* sim, viewer* view)
 {		
 	al_get_next_event(ev_line, &ev);
 	possition clicked;
+	unsigned int speed = (sim->GetSpeed());
 	switch (ev.type)
 	{
 	case  ALLEGRO_EVENT_KEY_DOWN:
@@ -103,7 +105,14 @@ void	controller::Update(simulation* sim, viewer* view)
 		sim->changeDir(clicked);
 		break;
 	case ALLEGRO_EVENT_TIMER:
-		view->UpdateDisplay(sim->GetBirdHeap(), sim->getBirdCount());
+		//if (!(ev.timer.count % ((int)FPS))) // Determina la velocidad del juego
+		//view->UpdateDisplay(sim->GetBirdHeap(), sim->getBirdCount());
+		if (!(ev.timer.count % ((int)FPS/9)))
+		{
+			sim->update();
+			view->UpdateDisplay(sim->GetBirdHeap(), sim->getBirdCount());
+			al_flip_display();
+		}
 		break;
 	
 

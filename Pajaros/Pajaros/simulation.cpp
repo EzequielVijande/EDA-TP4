@@ -59,43 +59,46 @@ void simulation::update(void)
 		{
 			jiggle = (birds + i)->getMaxRandomJiggle();
 			(birds + i)->setMaxRandomJiggle(jiggle + 1);
-			RandomJiggleInc = false;
+			//RandomJiggleInc = false;
 		}
 		if (RandomJiggleDec)
 		{
 			jiggle = (birds + i)->getMaxRandomJiggle();
-			(birds + i)->setMaxRandomJiggle(jiggle - 1);
-			RandomJiggleDec = false;
+			if (jiggle > 1)
+			{
+				(birds + i)->setMaxRandomJiggle(jiggle - 1);
+			}
+			//RandomJiggleDec = false;
 		}
 		if (speedIncremented)
 		{
 			birds[i].incrementSpeed();
-			speedIncremented = false;
+			//speedIncremented = false;
 		}
 		if (speedDecremented)
 		{
 			birds[i].decrementSpeed();
-			speedDecremented = false;
+			//speedDecremented = false;
 		}
 		if (dirIncremented)
 		{
 			birds[i].incrementDir();
-			dirIncremented = false;
+			//dirIncremented = false;
 		}
 		if (dirDecremented)
 		{
 			birds[i].decrementDir();
-			dirDecremented = false;
+			//dirDecremented = false;
 		}
 		if (eyeIncremented)
 		{
 			birds[i].incrementEyeSight();
-			eyeIncremented = false;
+			//eyeIncremented = false;
 		}
 		if (eyeDecremented)
 		{
 			birds[i].decrementEyeSight();
-			eyeDecremented = false;
+			//eyeDecremented = false;
 		}
 		if (dirChanged)
 		{
@@ -135,6 +138,15 @@ void simulation::update(void)
 			dirChanged = false;
 		}
 	}
+	RandomJiggleInc = false;
+	RandomJiggleDec = false;
+	speedIncremented = false;
+	speedDecremented = false;
+	dirIncremented = false;
+	dirDecremented = false;
+	eyeIncremented = false;
+	eyeDecremented = false;
+
 	for (unsigned int i = 0; i < birdCount; i++)
 	{
 		birds[i].move();
@@ -189,6 +201,10 @@ bool simulation :: isSpeedIncremented(void)
 bool simulation::isSpeedDecremented(void)
 {
 	return speedDecremented;
+}
+unsigned int simulation:: GetSpeed(void)
+{
+	return birds->getSpeed();
 }
 bool simulation::isDirChanged(void)
 {

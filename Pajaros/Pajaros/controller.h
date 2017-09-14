@@ -8,7 +8,7 @@
 class controller //clase que se ocupa de administrar los recursos
 {
 public:
-	controller(ALLEGRO_DISPLAY* display, unsigned int speed);
+	controller(ALLEGRO_DISPLAY* display);
 	bool IsNotExit(void);
 	bool IsInitOK(void);
 	~controller();

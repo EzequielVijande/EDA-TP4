@@ -35,7 +35,7 @@
 #define S14 "../Imagenes/S14.PNG"
 #define S15 "../Imagenes/S15.PNG"
 
-#define FPS 20 //velocidad del juego
+
 
 void help(void);
 
@@ -80,7 +80,7 @@ main(int argc, char**argv){
 		cout << "Failed to initialize viewer." << endl;
 		return -1;
 	}
-	controller control(view.GetDisplay(),FPS);
+	controller control(view.GetDisplay());
 	if (!(control.IsInitOK()))
 	{
 		return -1;
@@ -89,8 +89,8 @@ main(int argc, char**argv){
 	while(control.IsNotExit())
 	{
 		control.Update(&sim1, &view);
-		sim1.update();
-		al_flip_display();
+		//sim1.update();
+		//view.UpdateDisplay(sim1.GetBirdHeap(), sim1.getBirdCount());
 	
 	}
 	return 0;

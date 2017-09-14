@@ -24,6 +24,7 @@ public:
 	void deleteBird(bool);
 	bool isSpeedIncremented(void);  //getters
 	bool isSpeedDecremented(void);
+	unsigned int GetSpeed(void);
 	bool isDirChanged(void);
 	possition getPointToAim(void);
 	bool isDirIncremented(void);
