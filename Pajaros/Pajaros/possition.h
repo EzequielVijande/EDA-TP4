@@ -6,7 +6,7 @@
 class possition
 {
 public:
-	possition(double x_ = 0, double y_ = 0);
+	possition(double x_ = 0.0, double y_ = 0.0);
 	double getX(void);
 	double getY(void);
 	void setX(double x_);

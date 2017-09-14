@@ -1,4 +1,10 @@
-#include "main.h"
+#include <stdlib.h>
+#include<iostream>
+#include "controller.h"
+#include "simulation.h"
+#include <allegro5\allegro.h>
+#include "ParserFunc.h"
+#include "possition.h"
 
 #define BACKGROUND_IMAGE "../Imagenes/sky.png"
 #define FONT "../Fonts/Font.ttf"
@@ -6,6 +12,7 @@
 #define HEIGHT 70
 #define WIDTH 100
 #define MAX_BIRDS 100
+#define ERR -1
 
 //Seagull Images
 #define S0 "../Imagenes/S0.PNG"
@@ -25,6 +32,8 @@
 #define S14 "../Imagenes/S14.PNG"
 #define S15 "../Imagenes/S15.PNG"
 
+#define FPS 60 //velocidad del juego
+
 using namespace std;
 
 
@@ -33,20 +42,22 @@ main(int argc, char**argv){
 	if (!al_init())
 	{
 		cout << "Failed to initialize Allegro" << endl;
-		return ERR;
+		return -1;
 	}
+	/*
 	if (!al_init_primitives_addon())
 	{
 		cout << "Failed to initialize primitives addon" << endl;
 		return ERR;
 	}
+	*/
 	char* seagulls[FRAMES] = { S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15 };
 	//Inicializo arreglo con paths de gaviotas
 	userDataType uData = {0,0};
 	srand(time(NULL));
 	if (parsecmdline(argc, argv, &Callback, &uData)==-1) {
 		cout << "Parsing Error. Recall the program with appropiate argument values." << endl;
-		return ERR;
+		return -1;
 	}
 	//
 	simulation sim1(uData.birdnumber); //creo simulación con cantidad de pajaros definida por usuario.
@@ -57,18 +68,19 @@ main(int argc, char**argv){
 		cout << "Failed to initialize viewer." << endl;
 		return -1;
 	}
-	//controller control(...);
-	//while(control.isnotexit())
-	//{
-	//control.update();
-	for (unsigned int i = 0; i < 500; i++)
+	controller control(view.GetDisplay(),FPS);
+	if (!(control.IsInitOK()))
 	{
-		sim1.update();
-		view.UpdateDisplay(sim1.GetBirdHeap(), sim1.getBirdCount());
-		al_rest(0.05);
-		al_flip_display();
+		return -1;
 	}
-	//}
+
+	while(control.IsNotExit)
+	{
+		control.Update(&sim1);
+		sim1.update();
+		al_flip_display();
+	
+	}
 	return 0;
 
 

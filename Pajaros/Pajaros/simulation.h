@@ -10,6 +10,8 @@ public:
 	simulation(unsigned int birdCount_ = 0);
 	void update(void);
 
+	void incrementJiggle(bool);
+	void decrementJiggle(bool);
 	void incrementSpeed(bool);  //setters
 	void decrementSpeed(bool);
 	void changeDir(possition pointToAim_);
@@ -39,6 +41,8 @@ private:
 	
 	bird * birds;
 	unsigned int birdCount;
+	bool RandomJiggleDec;
+	bool RandomJiggleInc;
 	bool speedIncremented;
 	bool speedDecremented;
 	bool dirChanged;

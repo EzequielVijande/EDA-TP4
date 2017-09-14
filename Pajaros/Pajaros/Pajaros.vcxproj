@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bird.cpp" />
+    <ClCompile Include="controller.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="output.cpp" />
     <ClCompile Include="possition.cpp" />
@@ -136,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bird.h" />
+    <ClInclude Include="controller.h" />
     <ClInclude Include="output.h" />
     <ClInclude Include="possition.h" />
     <ClInclude Include="simulation.h" />

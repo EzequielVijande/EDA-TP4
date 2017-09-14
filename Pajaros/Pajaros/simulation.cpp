@@ -13,6 +13,8 @@ simulation :: simulation(unsigned int birdCount_)
 	birdCount = birdCount_;
 	if (birdCount > 0)
 	{
+		RandomJiggleInc = false;
+		RandomJiggleDec = false;
 		speedIncremented = false;  //inicializo datos miembros de la simulación
 		speedDecremented = false;
 		dirChanged = false;
@@ -45,6 +47,7 @@ void simulation::update(void)
 	double delta_x = 0;
 	double delta_y = 0;
 	double ang_rad = 0;
+	unsigned int jiggle = 0;
 
 	for (unsigned int i = 0; i < birdCount; i++)
 	{
@@ -52,6 +55,18 @@ void simulation::update(void)
 	}
 	for (unsigned int i = 0; i < birdCount; i++)
 	{
+		if (RandomJiggleInc)
+		{
+			jiggle = (birds + i)->getMaxRandomJiggle();
+			(birds + i)->setMaxRandomJiggle(jiggle + 1);
+			RandomJiggleInc = false;
+		}
+		if (RandomJiggleDec)
+		{
+			jiggle = (birds + i)->getMaxRandomJiggle();
+			(birds + i)->setMaxRandomJiggle(jiggle - 1);
+			RandomJiggleDec = false;
+		}
 		if (speedIncremented)
 		{
 			birds[i].incrementSpeed();
@@ -124,6 +139,14 @@ void simulation::update(void)
 	{
 		birds[i].move();
 	}
+}
+void simulation:: incrementJiggle(bool value)
+{
+	RandomJiggleInc = value;
+}
+void simulation::decrementJiggle(bool value)
+{
+	RandomJiggleDec = value;
 }
 void simulation :: incrementSpeed(bool speedState_)
 {

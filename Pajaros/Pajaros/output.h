@@ -5,7 +5,6 @@
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
 #include <allegro5\allegro_color.h>
-#include <allegro5\allegro_primitives.h>
 #include "bird.h"
 
 
@@ -20,7 +19,7 @@ public:
 	~viewer();
 	void UpdateDisplay(bird* birds, unsigned int bird_count);
 	bool IsInitOK(void);
-
+	ALLEGRO_DISPLAY* GetDisplay(void);
 
 private:
 	

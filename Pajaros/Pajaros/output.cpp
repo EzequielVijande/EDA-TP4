@@ -110,6 +110,10 @@ bool InitializeAllegroOutput(void)
 	
 	return true;
 }
+ALLEGRO_DISPLAY* viewer:: GetDisplay(void)
+{
+	return display;
+}
 
 bool viewer:: InitializeResources(char* path, char* font_path, unsigned int font_size, char** seagulls, unsigned int n_seagulls)
 {
